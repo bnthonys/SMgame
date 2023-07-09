@@ -1,0 +1,70 @@
+// 必要的头文件 
+#include <stdio.h>
+#include <stdlib.h>
+#include <conio.h>
+#include <time.h>
+#include <windows.h>
+#include <string.h>
+ 
+ 
+// 定义标记上下左右的明示常量 
+#define UP 1
+#define DOWN 2
+#define LEFT 3
+#define RIGHT 4
+#define ESC 5 
+#define FOOD 10
+// 定义表示位置的结构体类型
+typedef struct snake{
+	int x;
+	int y;
+	struct snake *next;
+}snake;
+// 定义全局变量 
+int score = 0; // 当前得分
+int speed = 200; // 存储当前速度
+int status;
+snake *tail, *head; // 存储蛇头蛇尾 
+snake *food, *q;// q用于遍历链表 
+HANDLE hOUT;
+void gotoxy(int x, int y); // 设置光标位置 
+int choice(void); // 载入游戏界面
+int color(int c); // 设置字体颜色 
+void printGame(void); // 打印游戏界面 
+void printSnake(void); // 打印蛇身
+void printFood(void); // 打印食物
+void printTips(void); // 打印提示
+void snakeMove(void); // 主操作函数 
+int biteSelf(void); // 判断是否咬到了自己
+int encounterWall(void); // 判断是否撞墙 
+void keyboardControl(void); // 获取击键 
+void speedUp(void); // 加速
+void speedDown(void); // 减速
+int endGame(void); // 结束函数; 
+char *s_gets(char *st, int n); // 读取字符
+void frees(snake *); // 释放内存 
+ 
+int main(int argc, char *argv[]){
+	while (1)
+	{
+		if (choice() == 1)
+			keyboardControl();
+		else
+		{
+			gotoxy(5, 15);
+			printf("按任意键返回");
+			getchar(); // 去除前一个前导换行 
+			while (1)
+			{
+				if (getchar())
+				{
+					system("cls");
+					break;
+				}
+			}
+		}
+	}
+	frees(head);
+ 
+	return 0;
+}
